@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "tailwindcss": "^3.3.3"
+  },
+  "dependencies": {
+    "parcel": "^2.10.0",
+    "path": "^0.12.7"
+  }
+}
