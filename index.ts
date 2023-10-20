@@ -4,90 +4,204 @@ type Task = {
 
 class DragDrop {
     container: HTMLElement;
-    holding: boolean;
-    initialPosition: {
-        x: number;
-        y: number;
-    };
-    initialPositionHTML: HTMLElement;
-    changedPositionHTML: HTMLElement;
+    target: null | number;
+    initialPosition: Record<string,null | number>;
+    items: any;
+    holders: any;
+    order: number[]
 
     constructor(container: HTMLElement) {
         this.container = container;
-        this.holding = false;
-
+        this.target = null;
         this.initialPosition = {
-            x: this.container.offsetLeft,
-            y: this.container.offsetTop
+            x : null,
+            y : null
+        };
+        this.order = [];
+        this.items = this.holders;
+    }
+
+    makeHolders(): void {
+        let items = this.items;
+        console.log(items.length)
+        for (let i = 0;i < items.length;i++) {
+            let holder = document.createElement("div");
+            holder.className = "holder";
+            let {width,height} = DragDrop.utils.getBoundingClientRect(items[i]) as DOMRect;
+            holder.style.width = width + "px";
+            holder.style.height = height + "px";
+            this.container.appendChild(holder);
+        }
+        this.holders = this.container.querySelectorAll(".holder");
+    }
+
+    removeHolders(): void {
+        let holders = this.container.querySelectorAll(".holder");
+        for (let i = 0;i < holders.length;i++) {
+            let holder = holders[i];
+            holder.remove();
+        }
+    }   
+
+    setItems(): void {
+        this.removeHolders();
+        
+        let children = this.container.children;         
+        for (let i = 0;i < children.length;i++) {
+            children[i].classList.add("item");
+        }
+        
+        this.items = this.container.querySelectorAll(".item") as NodeListOf<Element>;
+        this.makeHolders();
+
+        let items = this.items;
+        let holders = this.holders;
+        for (let i = 0;i < items.length;i++) {
+            let item = items[i];
+            item.setAttribute("data-ddid",i);
+            let holder = holders[i];
+            let holderBoxY = DragDrop.utils.getBoundingClientRect(holder,"y") as number;
+            let containerBoxY = DragDrop.utils.getBoundingClientRect(this.container,"y") as number;
+            item.style.transform = `translateY(${holderBoxY - containerBoxY}px)`;
+
+            setTimeout(() => {
+                item.style.transition = `transform 0.15s ease-in`;
+            });
+
+            this.order.push(i);
+        }
+    }
+
+    updateItems(): void {
+        let items = this.items;
+        let holders = this.holders;
+        for (let i = 0;i < items.length;i++) {
+            let item = items[i];
+            let index = Number(item.getAttribute("data-ddid"));
+            if (this.target == index) continue;
+            let holder = holders[this.order.indexOf(index)];
+            let holderBoxY = DragDrop.utils.getBoundingClientRect(holder,"y") as number;
+            let containerBoxY = DragDrop.utils.getBoundingClientRect(this.container,"y") as number;
+            item.style.transform = `translateY(${holderBoxY - containerBoxY}px)`;
+        }
+    }
+
+
+    firstContact(event: MouseEvent): void {
+        let eventTarget: HTMLElement = event.target as HTMLElement;
+        let target = eventTarget.getAttribute("data-ddid");
+        if (target == null || !eventTarget.classList.contains("item")) return;
+
+        let item = this.items[target];
+        item.style.transition = "transform 0s";
+
+        this.target = Number(target);
+        let {pageX,pageY} = event;
+        this.initialPosition = {
+            x: pageX,
+            y: pageY
+        };
+    }
+
+    dragging(event: MouseEvent): void {
+        if (this.target == null) return;
+        let currentPosition = {
+            x: event.pageX,
+            y: event.pageY
         }
 
-        this.initialPositionHTML = document.createElement("div");
-        this.initialPositionHTML.innerHTML = `x: ${this.initialPosition.x} y: ${this.initialPosition.y}`;
-        document.body.appendChild(this.initialPositionHTML);    
+        let holder = this.holders[this.order.indexOf(this.target)];
+        let holderBoxY = DragDrop.utils.getBoundingClientRect(holder,"y") as number;
+        this.items[this.target].style.transform = `translate(${currentPosition.x - (this.initialPosition.x as number)}px,${(holderBoxY - (DragDrop.utils.getBoundingClientRect(this.container,"y") as number)) + currentPosition.y - (this.initialPosition.y as number)}px)`;
 
-        this.changedPositionHTML = document.createElement("div");
-        this.changedPositionHTML.innerHTML = "";
-        document.body.appendChild(this.changedPositionHTML);
+        this.collission(holder);
     }
 
-    updateHolding(isHolding: boolean): void {
-        this.holding = isHolding;
+    collission(current: HTMLElement): void {
+        let currentBoxY = DragDrop.utils.getBoundingClientRect(current,"y") as number;
+        let holders = this.holders;
+
+        for (let i = 0;i < holders.length;i++) {
+            let holder = holders[i];
+            if (current == holder) continue;
+            let holderBox = DragDrop.utils.getBoundingClientRect(holder) as DOMRect;
+            let item = this.items[this.target as number];
+            let itemBox = DragDrop.utils.getBoundingClientRect(item) as DOMRect;
+            if (Math.abs((holderBox.y + holderBox.height / 2) - (itemBox.y + itemBox.height / 2)) <= itemBox.height / 2) {
+
+                this.order = DragDrop.utils.insertAt(this.order,this.target as number,i) as number[];
+                this.initialPosition.y = ((this.initialPosition.y as number) - currentBoxY) + (DragDrop.utils.getBoundingClientRect(holders[this.order.indexOf(this.target as number)],"y") as number);
+                this.updateItems();
+            }
+        }
     }
 
-    firstContact(position: {x: number,y: number}): void {
-        this.initialPosition = position;
-        this.initialPositionHTML.innerHTML = `x: ${this.initialPosition.x} y: ${this.initialPosition.y}`;
-        this.updateHolding(true);
-    }
-    
     releaseContact(): void {
-        this.updateHolding(false);
+        if (this.target == null) return;
+
+        let item = this.items[this.target];
+        item.style.transition = `transform 0.15s ease-in`;
+        item.style.opacity = 1;
+        this.target = null;
+        this.updateItems();
     }
 
-    isInContact(): boolean {
-        return this.holding;
-    }
+    init(): void {
+        this.order = [];
 
-    init() {
+        this.setItems();
+        
         const handleFirstContact = (event: MouseEvent): void => {
-           
-            let x = event.pageX;
-            let y = event.pageY;
+            this.firstContact(event);
+        }
 
-            this.firstContact({x,y});
-        };
+        const handleDragging = (event: MouseEvent): void => {
+            this.dragging(event);
+        }
 
-        const handleReleaseContact = ():void => {
-            this.releaseContact();
-        };
+        const handleReleaseContact = () => this.releaseContact();
 
-        const handleDragging = (event: MouseEvent):void => {
-            if (!this.isInContact()) return;
-
-            let x = event.pageX;
-            let y = event.pageY;
-
-            let delta_x = x - this.initialPosition.x;
-            let delta_y = y - this.initialPosition.y;
-
-            this.container.style.transform = `translate(${delta_x}px,${delta_y}px)`;
-
-            this.changedPositionHTML.innerHTML = `x: ${x} y: ${y}`;
-         /*    this.initialPosition = {x,y}; */
-        };
+        this.container.removeEventListener("mousedown",handleFirstContact);
+        this.container.removeEventListener("mousemove",handleDragging);
+        window.removeEventListener("mouseup",handleReleaseContact);
 
         this.container.addEventListener("mousedown",handleFirstContact);
         this.container.addEventListener("mousemove",handleDragging);
         window.addEventListener("mouseup",handleReleaseContact);
     }
+    
+    static utils = {
+        insertAt: function(array: number[],target: number,to: number): number[] | undefined  {
+            let initial_index = array.indexOf(target);
+            if (initial_index < to) {
+                return array.slice(0,initial_index).concat(array.slice(initial_index + 1,to + 1)).concat([target]).concat(array.slice(to + 1,array.length));
+            } else if (initial_index > to) {
+                return array.slice(0,to).concat([target]).concat(array.slice(to,initial_index)).concat(array.slice(initial_index + 1,array.length));
+            }
+        },
+        getBoundingClientRect: function(target: HTMLElement,...properties: Array<string>): (number | DOMRect | object) {   
+            let rect: Record<string,number> = target.getBoundingClientRect() as any;
+            if (properties.length == 1) {
+                return rect[properties[0]];
+            }else if (!properties || properties.length == 0) return rect;
+
+            let result: Record<string,number> = {};
+            for (let i = 0;i < properties.length;i++) {
+                let property = properties[i];
+                result[property] = rect[property];
+            }
+            return result;
+        }
+    }
 }
 
 class TaskHandler {
     _TASKS: Array<Task>;
-    HTML: Record<string,HTMLElement> 
+    HTML: Record<string,HTMLElement>;
+    container: HTMLElement;
     constructor(container: HTMLElement) {
         this._TASKS = [];
-
+        this.container = container;
 
         //container all html used
         this.HTML = {
@@ -162,11 +276,6 @@ class TaskHandler {
             container.appendChild(task_name_display);
             container.appendChild(update_btn);
             container.appendChild(done_btn);
-
-            
-            //add the handler for drag and drop
-            let drag_drop:DragDrop = new DragDrop(container);
-            drag_drop.init();
             
             //put the container to the task list
             this.HTML.taskList.appendChild(container);  
@@ -181,6 +290,9 @@ class TaskHandler {
 
             container.style.transform = `translateY(${i * container.offsetHeight}px)`;
         }
+
+        let dragdrop = new DragDrop(this.HTML.taskList);
+        dragdrop.init();
     }
 
     updateNoTaskDisplay(hide: boolean): void {
