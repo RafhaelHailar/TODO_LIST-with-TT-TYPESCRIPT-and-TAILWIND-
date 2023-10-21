@@ -23,11 +23,11 @@ class DragDrop {
 
     makeHolders(): void {
         let items = this.items;
-        console.log(items.length)
         for (let i = 0;i < items.length;i++) {
             let holder = document.createElement("div");
-            holder.className = "holder";
-            let {width,height} = DragDrop.utils.getBoundingClientRect(items[i]) as DOMRect;
+            holder.className = "holder bg-gray-100 my-0.5";
+            let {top,left,width,height} = DragDrop.utils.getBoundingClientRect(items[i]) as DOMRect;
+            let containerBox = DragDrop.utils.getBoundingClientRect(this.container) as DOMRect;
             holder.style.width = width + "px";
             holder.style.height = height + "px";
             this.container.appendChild(holder);
@@ -46,9 +46,12 @@ class DragDrop {
     setItems(): void {
         this.removeHolders();
         
-        let children = this.container.children;         
-        for (let i = 0;i < children.length;i++) {
-            children[i].classList.add("item");
+        let childrens = this.container.children;         
+        for (let i = 0;i < childrens.length;i++) {
+            let children = childrens[i] as HTMLElement;
+            children.classList.add("item");
+            children.classList.add("absolute");
+            children.style.transition = "transform 0s";
         }
         
         this.items = this.container.querySelectorAll(".item") as NodeListOf<Element>;
@@ -251,13 +254,16 @@ class TaskHandler {
 
             //outer cointainer
             let container = document.createElement("div");
-            container.className = "task-item flex border justify-between cursor-pointer select-none absolute w-full";
+            container.className = "task-item flex border justify-between cursor-pointer select-none w-full bg-white";
 
             //the task name starts with disabled / can't be edited , but once the update button is clicked it will be updatable again
             let task_name_display: HTMLInputElement = document.createElement("input");
             task_name_display.setAttribute("disabled","");
-            task_name_display.className = "disabled:bg-white disabled:cursor-pointer";
+            task_name_display.className = "disabled:bg-white disabled:cursor-pointer mx-5";
             task_name_display.value = task_name;
+
+            //container for buttons
+            let btn_container = document.createElement("div");
 
             //the done and update buttons
             let done_btn = document.createElement("button");
@@ -266,16 +272,20 @@ class TaskHandler {
             let update_btn = document.createElement("button");
             update_btn.innerHTML = "UPDATE";
 
-            done_btn.className = update_btn.className = "border px-5 py-2";
+            done_btn.className = update_btn.className = "border px-5 py-2 text-slate-100 rounded";
+            done_btn.classList.add("bg-red-500");
+            update_btn.classList.add("bg-cyan-500");
 
             //add the handlers
             done_btn.addEventListener("click",() => this.removeTask(i));
             update_btn.addEventListener("click",() => this.updateTask(i));
             
+            btn_container.appendChild(update_btn);
+            btn_container.appendChild(done_btn);
+
             //put all of the to the container
             container.appendChild(task_name_display);
-            container.appendChild(update_btn);
-            container.appendChild(done_btn);
+            container.appendChild(btn_container);
             
             //put the container to the task list
             this.HTML.taskList.appendChild(container);  
@@ -288,11 +298,10 @@ class TaskHandler {
             
             container.appendChild(task_name_display_box);
 
-            container.style.transform = `translateY(${i * container.offsetHeight}px)`;
         }
 
         let dragdrop = new DragDrop(this.HTML.taskList);
-        dragdrop.init();
+        setTimeout(() =>  dragdrop.init());
     }
 
     updateNoTaskDisplay(hide: boolean): void {
