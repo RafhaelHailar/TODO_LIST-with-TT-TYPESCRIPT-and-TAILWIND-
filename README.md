@@ -5,7 +5,7 @@ Before we go to the explanation on how I made my Drag and Drop functionality let
 There are diffrent version of a Drag and Drop one version is that , a user can drop the item anywhere they wanted to.
 
 ## Drag and Drop anywhere version (this is just a made up name for this version) 
-<video src="./videos/dragdropanywhere.mp4" autoplay="true" loop controls width="400"></video>
+![Drag Drop Anywhere Flavor](./videos/dragdropanywhere.gif);
 
 > As shown in the video above , the Drag and Drop anywhere version you can drop item everywhere,
 like the new rectangle we made we can drop it anywhere , like on the top of the other rectangle burying it.
@@ -14,7 +14,8 @@ like the new rectangle we made we can drop it anywhere , like on the top of the 
 
 **Like what is shown in the video below**
 
-<video src="./videos/drogdropholders.mp4" autoplay loop controls width="400"></video>
+![Drag Drop with Holders Flavor](./videos/dragdropholders.gif);
+
 
 > In this version you can't drop the item anywhere , like what is shown in the video when we attempt to drop the file to the other file it doesn't allow us to place it , there it was place in other area. <br />
 That particular area where our file was drop is what I call **Holder** , A holder is an area where a particular item could be place, you could think of the holder like in a tray the egg holder , or where the egg could be place. There is a specific area where the item are allowed to be place.
