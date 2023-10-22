@@ -52,6 +52,7 @@ class DragDrop {
             let holder = holders[i];
             let holderBoxY = DragDrop.utils.getBoundingClientRect(holder, "y");
             let containerBoxY = DragDrop.utils.getBoundingClientRect(this.container, "y");
+            item.style.margin = '0';
             item.style.transform = `translateY(${holderBoxY - containerBoxY}px)`;
             setTimeout(() => {
                 item.style.transition = `transform 0.15s ease-in`;
@@ -75,8 +76,15 @@ class DragDrop {
     }
     firstContact(event) {
         let eventTarget = event.target;
-        let target = eventTarget.getAttribute("data-ddid");
-        if (target == null || !eventTarget.classList.contains("item"))
+        let current_element = event.target;
+        while (current_element != document.body) {
+            if (current_element.classList.contains("item")) {
+                break;
+            }
+            current_element = current_element.parentElement;
+        }
+        let target = current_element.getAttribute("data-ddid");
+        if (target == null || !current_element.classList.contains("item"))
             return;
         let item = this.items[target];
         item.style.transition = "transform 0s";
@@ -132,18 +140,24 @@ class DragDrop {
         this.container.style.position = "relative";
         this.setItems();
         const handleFirstContact = (event) => {
+            event.stopPropagation();
             this.firstContact(event);
         };
         const handleDragging = (event) => {
             this.dragging(event);
+            event.stopPropagation();
         };
-        const handleReleaseContact = () => this.releaseContact();
-        this.container.removeEventListener("mousedown", handleFirstContact);
-        this.container.removeEventListener("mousemove", handleDragging);
-        window.removeEventListener("mouseup", handleReleaseContact);
-        this.container.addEventListener("mousedown", handleFirstContact);
-        this.container.addEventListener("mousemove", handleDragging);
-        window.addEventListener("mouseup", handleReleaseContact);
+        const handleReleaseContact = (event) => { event.stopPropagation(); this.releaseContact(); };
+        function reqr(event) {
+            event.stopPropagation();
+        }
+        this.container.removeEventListener("mousedown", handleFirstContact, true);
+        this.container.removeEventListener("mousemove", handleDragging, true);
+        window.removeEventListener("mouseup", handleReleaseContact, true);
+        this.container.addEventListener("mousedown", handleFirstContact, true);
+        this.container.addEventListener("click", reqr, true);
+        this.container.addEventListener("mousemove", handleDragging, true);
+        window.addEventListener("mouseup", handleReleaseContact, true);
     }
 }
 DragDrop.utils = {

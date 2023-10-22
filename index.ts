@@ -14,8 +14,9 @@ class TaskHandler {
         this.HTML = {
             addTask: container.querySelector("#add-task-form") as HTMLElement,
             taskList: container.querySelector("#task-list") as HTMLElement,
-            noTask: container.querySelector("#no-task") as HTMLElement
+            noTask: container.querySelector("#no-task") as HTMLElement,
         };
+        this.HTML.taskListContainer = this.HTML.taskList.parentElement as HTMLElement;
     }
 
     //as the name say it take a Task type value and push that to the _TASKS container and then update the display
@@ -58,7 +59,14 @@ class TaskHandler {
 
             //outer cointainer
             let container = document.createElement("div");
-            container.className = "task-item flex border justify-between cursor-pointer select-none w-full bg-white my-3";
+            container.className = "task-item flex border justify-between cursor-pointer select-none w-full bg-white my-1 rounded px-2";
+
+            //the checkmark circle
+            const check_mark = document.createElement("div");
+            check_mark.className = "flex justify-center items-center";
+            const check_circle = document.createElement("div");
+            check_circle.className = "border p-3 rounded-full";
+
 
             //the task name starts with disabled / can't be edited , but once the update button is clicked it will be updatable again
             let task_name_display: HTMLInputElement = document.createElement("input");
@@ -87,7 +95,10 @@ class TaskHandler {
             btn_container.appendChild(update_btn);
             btn_container.appendChild(done_btn);
 
+            check_mark.appendChild(check_circle);
+
             //put all of the to the container
+            container.appendChild(check_mark);
             container.appendChild(task_name_display);
             container.appendChild(btn_container);
             
@@ -99,6 +110,7 @@ class TaskHandler {
             task_name_display_box.className = "absolute top-0 left-0";
             task_name_display_box.style.width = task_name_display.offsetWidth + "px";
             task_name_display_box.style.height = task_name_display.offsetHeight + "px";
+            task_name_display_box.style.left = task_name_display.offsetLeft + "px";
             
             container.appendChild(task_name_display_box);
 
@@ -109,8 +121,15 @@ class TaskHandler {
     }
 
     updateNoTaskDisplay(hide: boolean): void {
-        if (hide) this.HTML.noTask.classList.add("hidden");
-        else this.HTML.noTask.classList.remove("hidden");
+        if (hide) {
+            this.HTML.noTask.classList.add("hidden");
+            this.HTML.taskListContainer.classList.add("px-2");
+            this.HTML.taskListContainer.classList.add("py-1");
+        } else {
+            this.HTML.noTask.classList.remove("hidden");
+            this.HTML.taskListContainer.classList.remove("px-2");
+            this.HTML.taskListContainer.classList.remove("py-1");
+        }
     }
 
     getTasksTotal(): number {

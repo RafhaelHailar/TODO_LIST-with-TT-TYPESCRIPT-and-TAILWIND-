@@ -65,6 +65,7 @@ class DragDrop {
             let holder = holders[i];
             let holderBoxY = DragDrop.utils.getBoundingClientRect(holder,"y") as number;
             let containerBoxY = DragDrop.utils.getBoundingClientRect(this.container,"y") as number;
+            item.style.margin = '0';
             item.style.transform = `translateY(${holderBoxY - containerBoxY}px)`;
 
             setTimeout(() => {
@@ -92,8 +93,15 @@ class DragDrop {
 
     firstContact(event: MouseEvent): void {
         let eventTarget: HTMLElement = event.target as HTMLElement;
-        let target = eventTarget.getAttribute("data-ddid");
-        if (target == null || !eventTarget.classList.contains("item")) return;
+        let current_element = event.target as HTMLElement;
+        while (current_element != document.body) {
+            if (current_element.classList.contains("item")) {
+                break;
+            }
+            current_element = current_element.parentElement as HTMLElement;
+        }   
+        let target = current_element.getAttribute("data-ddid");
+        if (target == null || !current_element.classList.contains("item")) return;
 
         let item = this.items[target];
         item.style.transition = "transform 0s";
@@ -159,22 +167,29 @@ class DragDrop {
         this.setItems();
         
         const handleFirstContact = (event: MouseEvent): void => {
+            event.stopPropagation();
             this.firstContact(event);
         }
 
         const handleDragging = (event: MouseEvent): void => {
             this.dragging(event);
+            event.stopPropagation();
         }
 
-        const handleReleaseContact = () => this.releaseContact();
+        const handleReleaseContact = (event: MouseEvent): void => {event.stopPropagation();this.releaseContact()};
 
-        this.container.removeEventListener("mousedown",handleFirstContact);
-        this.container.removeEventListener("mousemove",handleDragging);
-        window.removeEventListener("mouseup",handleReleaseContact);
+        function reqr(event: Event): void {
+            event.stopPropagation();
+        }
 
-        this.container.addEventListener("mousedown",handleFirstContact);
-        this.container.addEventListener("mousemove",handleDragging);
-        window.addEventListener("mouseup",handleReleaseContact);
+        this.container.removeEventListener("mousedown",handleFirstContact,true);
+        this.container.removeEventListener("mousemove",handleDragging,true);
+        window.removeEventListener("mouseup",handleReleaseContact,true);
+
+        this.container.addEventListener("mousedown",handleFirstContact,true);
+        this.container.addEventListener("click",reqr,true);
+        this.container.addEventListener("mousemove",handleDragging,true);
+        window.addEventListener("mouseup",handleReleaseContact,true);
     }
     
     static utils = {
