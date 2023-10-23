@@ -4,7 +4,8 @@ class DragDrop {
     initialPosition: Record<string,null | number>;
     items: any;
     holders: any;
-    order: number[]
+    order: number[];
+    isDragging: boolean;
 
     constructor(container: HTMLElement) {
         this.container = container;
@@ -15,6 +16,7 @@ class DragDrop {
         };
         this.order = [];
         this.items = this.holders;
+        this.isDragging = false;
     }
 
     makeHolders(): void {
@@ -121,6 +123,8 @@ class DragDrop {
             y: event.pageY
         }
 
+        this.isDragging = true;
+
         let holder = this.holders[this.order.indexOf(this.target)];
         let holderBoxY = DragDrop.utils.getBoundingClientRect(holder,"y") as number;
         this.items[this.target].style.transform = `translate(${currentPosition.x - (this.initialPosition.x as number)}px,${(holderBoxY - (DragDrop.utils.getBoundingClientRect(this.container,"y") as number)) + currentPosition.y - (this.initialPosition.y as number)}px)`;
@@ -154,6 +158,13 @@ class DragDrop {
         item.style.transition = `transform 0.15s ease-in`;
         item.style.opacity = 1;
         this.target = null;
+
+        function draggingStop(this: DragDrop) {
+            this.isDragging = false;
+        }
+        
+        setTimeout(draggingStop.bind(this),150);
+        
         this.updateItems();
     }
 
@@ -178,8 +189,9 @@ class DragDrop {
 
         const handleReleaseContact = (event: MouseEvent): void => {event.stopPropagation();this.releaseContact()};
 
-        function reqr(event: Event): void {
-            event.stopPropagation();
+        const reqr = (event: Event): void => {
+            if (this.isDragging)
+                event.stopPropagation();
         }
 
         this.container.removeEventListener("mousedown",handleFirstContact,true);
@@ -187,7 +199,7 @@ class DragDrop {
         window.removeEventListener("mouseup",handleReleaseContact,true);
 
         this.container.addEventListener("mousedown",handleFirstContact,true);
-        this.container.addEventListener("click",reqr,true);
+        this.container.addEventListener("click",(event: Event) => reqr(event),true);
         this.container.addEventListener("mousemove",handleDragging,true);
         window.addEventListener("mouseup",handleReleaseContact,true);
     }

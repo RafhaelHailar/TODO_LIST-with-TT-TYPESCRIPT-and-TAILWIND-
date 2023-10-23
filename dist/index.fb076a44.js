@@ -8,6 +8,7 @@ class DragDrop {
         };
         this.order = [];
         this.items = this.holders;
+        this.isDragging = false;
     }
     makeHolders() {
         let items = this.items;
@@ -96,6 +97,7 @@ class DragDrop {
             x: event.pageX,
             y: event.pageY
         };
+        this.isDragging = true;
         let holder = this.holders[this.order.indexOf(this.target)];
         let holderBoxY = DragDrop.utils.getBoundingClientRect(holder, "y");
         this.items[this.target].style.transform = `translate(${currentPosition.x - this.initialPosition.x}px,${holderBoxY - DragDrop.utils.getBoundingClientRect(this.container, "y") + currentPosition.y - this.initialPosition.y}px)`;
@@ -123,6 +125,10 @@ class DragDrop {
         item.style.transition = `transform 0.15s ease-in`;
         item.style.opacity = 1;
         this.target = null;
+        function draggingStop() {
+            this.isDragging = false;
+        }
+        setTimeout(draggingStop.bind(this), 150);
         this.updateItems();
     }
     init() {
@@ -143,14 +149,14 @@ class DragDrop {
             event.stopPropagation();
             this.releaseContact();
         };
-        function reqr(event) {
-            event.stopPropagation();
-        }
+        const reqr = (event)=>{
+            if (this.isDragging) event.stopPropagation();
+        };
         this.container.removeEventListener("mousedown", handleFirstContact, true);
         this.container.removeEventListener("mousemove", handleDragging, true);
         window.removeEventListener("mouseup", handleReleaseContact, true);
         this.container.addEventListener("mousedown", handleFirstContact, true);
-        this.container.addEventListener("click", reqr, true);
+        this.container.addEventListener("click", (event)=>reqr(event), true);
         this.container.addEventListener("mousemove", handleDragging, true);
         window.addEventListener("mouseup", handleReleaseContact, true);
     }
