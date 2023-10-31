@@ -10,6 +10,8 @@ class TaskHandler {
             noTask: container.querySelector("#no-task"),
         };
         this.HTML.taskListContainer = this.HTML.taskList.parentElement;
+        this.dragdrop = new DragDrop(this.HTML.taskList, this, "_TASKS");
+        this.dragdrop.init();
     }
     //as the name say it take a Task type value and push that to the _TASKS container and then update the display
     addTask(task) {
@@ -97,8 +99,9 @@ class TaskHandler {
             task_name_display_box.style.left = task_name_display.offsetLeft + "px";
             container.appendChild(task_name_display_box);
         }
-        let dragdrop = new DragDrop(this.HTML.taskList);
-        setTimeout(() => dragdrop.init());
+        setTimeout(() => {
+            this.dragdrop.setItems();
+        });
     }
     updateNoTaskDisplay(hide) {
         if (hide) {
@@ -124,6 +127,7 @@ class TaskHandler {
             let task_name_input = this.HTML.addTask.querySelector("input");
             let task_name = task_name_input.value;
             const TASK = {
+                id: this._TASKS.length + 1,
                 task_name,
                 done: false
             };

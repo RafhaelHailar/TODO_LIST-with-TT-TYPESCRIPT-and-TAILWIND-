@@ -1,4 +1,6 @@
+
 type Task = {
+    id: number;
     task_name: string;
     done: boolean;
 }
@@ -7,6 +9,7 @@ class TaskHandler {
     _TASKS: Array<Task>;
     HTML: Record<string,HTMLElement>;
     container: HTMLElement;
+    dragdrop: DragDrop;
     constructor(container: HTMLElement) {
         this._TASKS = [];
         this.container = container;
@@ -18,6 +21,8 @@ class TaskHandler {
             noTask: container.querySelector("#no-task") as HTMLElement,
         };
         this.HTML.taskListContainer = this.HTML.taskList.parentElement as HTMLElement;
+        this.dragdrop = new DragDrop(this.HTML.taskList,this,"_TASKS");
+        this.dragdrop.init();
     }
 
     //as the name say it take a Task type value and push that to the _TASKS container and then update the display
@@ -132,8 +137,9 @@ class TaskHandler {
 
         }
 
-        let dragdrop = new DragDrop(this.HTML.taskList);
-        setTimeout(() =>  dragdrop.init());
+        setTimeout(() => {
+            this.dragdrop.setItems();
+        });
     }
 
     updateNoTaskDisplay(hide: boolean): void {
@@ -164,6 +170,7 @@ class TaskHandler {
             let task_name = task_name_input.value;
 
             const TASK: Task = {
+                id: this._TASKS.length + 1,
                 task_name,
                 done: false
             };

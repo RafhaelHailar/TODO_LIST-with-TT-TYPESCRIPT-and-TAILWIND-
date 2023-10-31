@@ -4,19 +4,23 @@ class DragDrop {
     initialPosition: Record<string,null | number>;
     items: any;
     holders: any;
-    order: number[];
     isDragging: boolean;
+    orderHolder: any;
+    orderName: string;
+    order: any[];
 
-    constructor(container: HTMLElement) {
+    constructor(container: HTMLElement,orderHolder: any,orderName: string) {
         this.container = container;
         this.target = null;
         this.initialPosition = {
             x : null,
             y : null
         };
-        this.order = [];
         this.items = this.holders;
         this.isDragging = false;
+        this.orderHolder = orderHolder;
+        this.order = orderHolder[orderName];
+        this.orderName = orderName;
     }
 
     makeHolders(): void {
@@ -63,7 +67,7 @@ class DragDrop {
         let holders = this.holders;
         for (let i = 0;i < items.length;i++) {
             let item = items[i];
-            item.setAttribute("data-ddid",i);
+            item.setAttribute("data-ddid",this.order[i].id);
             let holder = holders[i];
             let holderBoxY = DragDrop.utils.getBoundingClientRect(holder,"y") as number;
             let containerBoxY = DragDrop.utils.getBoundingClientRect(this.container,"y") as number;
@@ -74,7 +78,6 @@ class DragDrop {
                 item.style.transition = `transform 0.15s ease-in`;
             });
 
-            this.order.push(i);
         }
     }
 
@@ -85,7 +88,8 @@ class DragDrop {
             let item = items[i];
             let index = Number(item.getAttribute("data-ddid"));
             if (this.target == index) continue;
-            let holder = holders[this.order.indexOf(index)];
+     
+            let holder = holders[this.order.indexOf(DragDrop.utils.getObjectById(this.order,"id",index))];
             let holderBoxY = DragDrop.utils.getBoundingClientRect(holder,"y") as number;
             let containerBoxY = DragDrop.utils.getBoundingClientRect(this.container,"y") as number;
             item.style.transform = `translateY(${holderBoxY - containerBoxY}px)`;
@@ -96,6 +100,7 @@ class DragDrop {
     firstContact(event: MouseEvent): void {
         let eventTarget: HTMLElement = event.target as HTMLElement;
         let current_element = event.target as HTMLElement;
+
         while (current_element != document.body) {
             if (current_element.classList.contains("item")) {
                 break;
@@ -105,7 +110,11 @@ class DragDrop {
         let target = current_element.getAttribute("data-ddid");
         if (target == null || !current_element.classList.contains("item")) return;
 
-        let item = this.items[target];
+        let item = this.items[Array.from(this.items).indexOf(Array.from(this.items).find((value) => {
+            let element = value as HTMLElement;
+            return element.getAttribute("data-ddid") == target;
+        })) as number];
+
         item.style.transition = "transform 0s";
 
         this.target = Number(target);
@@ -125,9 +134,15 @@ class DragDrop {
 
         this.isDragging = true;
 
-        let holder = this.holders[this.order.indexOf(this.target)];
+        let holder = this.holders[this.order.indexOf(DragDrop.utils.getObjectById(this.order,"id",this.target))];
         let holderBoxY = DragDrop.utils.getBoundingClientRect(holder,"y") as number;
-        this.items[this.target].style.transform = `translate(${currentPosition.x - (this.initialPosition.x as number)}px,${(holderBoxY - (DragDrop.utils.getBoundingClientRect(this.container,"y") as number)) + currentPosition.y - (this.initialPosition.y as number)}px)`;
+
+        let item = this.items[Array.from(this.items).indexOf(Array.from(this.items).find(value => {
+            let element = value as HTMLElement;
+            return Number(element.getAttribute("data-ddid")) == this.target;
+        }))];
+       
+        item.style.transform = `translate(${currentPosition.x - (this.initialPosition.x as number)}px,${(holderBoxY - (DragDrop.utils.getBoundingClientRect(this.container,"y") as number)) + currentPosition.y - (this.initialPosition.y as number)}px)`;
 
         this.collission(holder);
     }
@@ -140,12 +155,17 @@ class DragDrop {
             let holder = holders[i];
             if (current == holder) continue;
             let holderBox = DragDrop.utils.getBoundingClientRect(holder) as DOMRect;
-            let item = this.items[this.target as number];
+            let item = this.items[Array.from(this.items).indexOf(Array.from(this.items).find(value => {
+                let element = value as HTMLElement;
+                return Number(element.getAttribute("data-ddid")) == this.target;
+            }))];
             let itemBox = DragDrop.utils.getBoundingClientRect(item) as DOMRect;
             if (Math.abs((holderBox.y + holderBox.height / 2) - (itemBox.y + itemBox.height / 2)) <= itemBox.height / 2) {
+       
+                this.orderHolder[this.orderName] = DragDrop.utils.insertAt(this.order,DragDrop.utils.getObjectById(this.order,"id",this.target as number),i);
+                this.order = this.orderHolder[this.orderName]
 
-                this.order = DragDrop.utils.insertAt(this.order,this.target as number,i) as number[];
-                this.initialPosition.y = ((this.initialPosition.y as number) - currentBoxY) + (DragDrop.utils.getBoundingClientRect(holders[this.order.indexOf(this.target as number)],"y") as number);
+                this.initialPosition.y = ((this.initialPosition.y as number) - currentBoxY) + (DragDrop.utils.getBoundingClientRect(holders[this.order.indexOf(DragDrop.utils.getObjectById(this.order,"id",this.target as number))],"y") as number);
                 this.updateItems();
             }
         }
@@ -154,7 +174,11 @@ class DragDrop {
     releaseContact(): void {
         if (this.target == null) return;
 
-        let item = this.items[this.target];
+        let item = this.items[Array.from(this.items).indexOf(Array.from(this.items).find(value => {
+            let element = value as HTMLElement;
+            return Number(element.getAttribute("data-ddid")) == this.target;
+        }))];
+
         item.style.transition = `transform 0.15s ease-in`;
         item.style.opacity = 1;
         this.target = null;
@@ -169,7 +193,6 @@ class DragDrop {
     }
 
     init(): void {
-        this.order = [];
 
         this.container.style.display = "flex";
         this.container.style.flexDirection = "column";
@@ -193,10 +216,6 @@ class DragDrop {
             if (this.isDragging)
                 event.stopPropagation();
         }
-
-        this.container.removeEventListener("mousedown",handleFirstContact,true);
-        this.container.removeEventListener("mousemove",handleDragging,true);
-        window.removeEventListener("mouseup",handleReleaseContact,true);
 
         this.container.addEventListener("mousedown",handleFirstContact,true);
         this.container.addEventListener("click",(event: Event) => reqr(event),true);
@@ -225,6 +244,9 @@ class DragDrop {
                 result[property] = rect[property];
             }
             return result;
+        },
+        getObjectById(container: any[],key: string,value: any) {
+            return container.find(element => element[key] == value);
         }
     }
 }

@@ -16,7 +16,7 @@
 113C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\css-tree\lib\tokenizer\TokenStream.js133419359459995433 0
 118C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\css-select\node_modules\dom-serializer\lib133419359396652377 1
 84C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\escalade133419359386236139 1
-67C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dist133424519265641669 1
+67C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dist133427211990673842 1
 110C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\cosmiconfig\dist\ExplorerSync.d.ts133419359404528523 0
 110C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\@swc\helpers\_\_async_to_generator133419359454263406 1
 114C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\svgo\plugins\convertEllipseToCircle.js133419359399547962 0
@@ -28,7 +28,7 @@
 84C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\svgo\lib133419359440154512 1
 118C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\css-select\node_modules\domutils\readme.md133419359415527574 0
 112C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\caniuse-lite\data\features\tls1-2.js133419359498999872 0
-74C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dragdrop.ts133424519387050995 0
+74C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dragdrop.ts133427205309425955 0
 108C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\fast-glob\out\providers\matchers133419343836339984 1
 122C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\electron-to-chromium\full-chromium-versions.js133419359360706397 0
 106C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\csso\node_modules\css-tree\cjs133419359445785219 1
@@ -53,7 +53,7 @@
 107C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\@parcel\utils\src\DefaultMap.js133419359396892283 0
 89C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\camelcase-css133419343833359847 1
 115C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\tailwindcss\lib\oxide\cli\init\index.js133419343838199550 0
-74C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dragdrop.js133424425596285183 0
+74C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dragdrop.js133425454795951060 0
 122C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\csso\node_modules\css-tree\cjs\lexer\Lexer.cjs133419359425166792 0
 128C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\@parcel\runtime-js\src\helpers\worker\wasm-loader.js133419359412521995 0
 80C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\.bin133419359507227640 1
@@ -67,7 +67,7 @@
 76C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\tsconfig.json133419342955510775 0
 102C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\@nodelib\fs.stat\out\types133419343834970297 1
 112C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\caniuse-lite\data\features\tls1-1.js133419359498999872 0
-73C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\index.html133424442921233699 0
+73C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\index.html133426210514054349 0
 126C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\@parcel\core\test\fixtures\local-plugin-config-pkg133419359441447523 1
 99C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\postcss\lib\fromJSON.js133419343834330240 0
 85C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\yaml\dist133419343840393429 1
@@ -88,7 +88,7 @@
 120C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\yaml\browser\dist\stringify\foldFlowLines.js133419343836742214 0
 118C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\yaml\dist\compose\util-contains-newline.js133419343838764787 0
 109C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\@parcel\transformer-image\LICENSE133419359340105065 0
-72C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\index.css133424448937351034 0
+72C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\index.css133425425843659956 0
 110C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\tailwindcss\lib\cli\build\index.js133419343837957461 0
 122C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\tailwindcss\src\lib\substituteScreenAtRules.js133419343840800323 0
 100C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\resolve\example\async.js133419343834890354 0
@@ -103,7 +103,7 @@
 107C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\svgo\plugins\applyTransforms.js133419359391123815 0
 107C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\css-tree\lib\lexer\structure.js133419359459108636 0
 107C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\caniuse-lite\data\regions\TV.js133419359499482428 0
-71C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\index.js133424425596475394 0
+71C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\index.js133425454796101070 0
 113C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\@swc\helpers\_\_ts_param\package.json133419359467899111 0
 85C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\fast-glob133419343835851960 1
 95C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\parse-json\index.js133419359345819430 0
@@ -121,7 +121,7 @@
 94C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\dlv\dist\dlv.es.js133419343833211626 0
 116C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\tailwindcss\lib\oxide\cli\build\utils.js133419343841124467 0
 96C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\tailwindcss\src\util133419343841290012 1
-71C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\index.ts133424507643190604 0
+71C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\index.ts133427211988441150 0
 105C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\yaml\dist\parse\cst-scalar.js133419343836174882 0
 86C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\css-select133419359423001331 1
 80C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\package-lock.json133419359526993322 0
@@ -463,7 +463,7 @@
 93C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\callsites\license133419359361189069 0
 108C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\yaml\dist\schema\yaml-1.1\set.js133419343838199550 0
 95C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\tailwindcss\src\cli133419343838684776 1
-78C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dist\index.html133424518664492403 0
+78C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dist\index.html133427211990522784 0
 150C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\@parcel\optimizer-svgo\node_modules\css-tree\lib\syntax\node\StyleSheet.js133419359445385590 0
 98C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\postcss\lib\at-rule.js133419343832603767 0
 115C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\yaml\browser\dist\schema\core\schema.js133419343837957461 0
@@ -2130,7 +2130,7 @@
 103C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\tailwindcss\src\util\tap.js133419343840883289 0
 120C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\caniuse-lite\data\features\variable-fonts.js133419359500522564 0
 88C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\svgo\LICENSE133419359339697916 0
-85C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dist\index.242b51c6.js133424518663286825 0
+85C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dist\index.242b51c6.js133427211990532763 0
 107C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\caniuse-lite\data\regions\LC.js133419359481316657 0
 108C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\nth-check\lib\esm\index.d.ts.map133419359394713089 0
 100C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\node-addon-api\nothing.c133419359336637469 0
@@ -3459,7 +3459,7 @@
 99C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\postcss-load-config\src133419343834410294 1
 136C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\htmlnano\docs\versioned_sidebars\version-1.1.1-sidebars.json133419359414886646 0
 114C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\cosmiconfig\dist\ExplorerSync.d.ts.map133419359394713089 0
-90C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dist\index.9e4c6fd2.css.map133424518663116819 0
+90C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dist\index.9e4c6fd2.css.map133427211990613852 0
 108C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\postcss-load-config\src\index.js133419343832626179 0
 91C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\postcss\LICENSE133419343832039850 0
 106C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\postcss-load-config\src\req.js133419343833611244 0
@@ -3674,7 +3674,7 @@
 144C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\@parcel\optimizer-htmlnano\node_modules\css-tree\lib\parser\index.js133419359422920989 0
 130C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\caniuse-lite\data\features\input-autocomplete-onoff.js133419359477042285 0
 133C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\node-releases\data\release-schedule\release-schedule.json133419359376630587 0
-85C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dist\index.fb076a44.js133424519265601687 0
+85C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dist\index.fb076a44.js133427211990532763 0
 148C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\@parcel\optimizer-svgo\node_modules\mdn-data\api\inheritance.schema.json133419359394873055 0
 103C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\csso\cjs\replace\Atrule.cjs133419359393016626 0
 114C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\node-releases\data\processed\envs.json133419359353917561 0
@@ -4179,7 +4179,7 @@
 91C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\is-glob\LICENSE133419343832010825 0
 120C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\@swc\helpers\esm\_assert_this_initialized.js133419359442328103 0
 96C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\is-glob\package.json133419343832887859 0
-89C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dist\index.fb076a44.js.map133424519265631678 0
+89C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dist\index.fb076a44.js.map133427211990613852 0
 141C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\@parcel\optimizer-svgo\node_modules\css-select\lib\procedure.d.ts133419359408100943 0
 134C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\csso\node_modules\css-tree\lib\syntax\node\UnicodeRange.js133419359459755720 0
 95C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\is-extglob\index.js133419343833121086 0
@@ -5358,7 +5358,7 @@
 98C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\commander\CHANGELOG.md133419343833359847 0
 123C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\@babel\helper-validator-identifier\package.json133419359391049709 0
 95C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\commander\Readme.md133419343833687349 0
-84C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dist\TODO.3464ddca.js133424518663486819 0
+84C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dist\TODO.3464ddca.js133427211990542776 0
 94C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\color-name\LICENSE133419359355215312 0
 104C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\color-convert\conversions.js133419359356582538 0
 112C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\caniuse-lite\dist\unpacker\agents.js133419359395195970 0
@@ -7639,7 +7639,7 @@
 96C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\.bin\tailwindcss.cmd133419343842098747 0
 107C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\node_modules\.bin\update-browserslist-db.cmd133419359507227640 0
 89C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dist\index.10724fe0.js.map133424425818631159 0
-89C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dist\index.242b51c6.js.map133424518663326823 0
-86C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dist\index.9e4c6fd2.css133424518662896107 0
+89C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dist\index.242b51c6.js.map133427211990613852 0
+86C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dist\index.9e4c6fd2.css133427211990442764 0
 89C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dist\index.c36f364e.js.map133424425818595732 0
-88C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dist\TODO.3464ddca.js.map133424518663549699 0
+88C:\Users\Rafhael\OneDrive\Desktop\Web Projects\MyWebsites\TODO\dist\TODO.3464ddca.js.map133427211990613852 0
