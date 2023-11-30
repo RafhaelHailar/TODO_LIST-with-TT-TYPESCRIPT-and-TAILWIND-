@@ -23,7 +23,7 @@ class DragDrop {
             holder.style.margin = getComputedStyle(items[i]).margin;
             holder.style.width = width + "px";
             holder.style.height = height + "px";
-            holder.style.top = `translate(${left - containerBox.x}px,${top - containerBox.y}px)`;
+            holder.style.transform = `translate(${left - containerBox.x}px,${top - containerBox.y}px)`;
             this.container.appendChild(holder);
         }
         this.holders = this.container.querySelectorAll(".holder");
@@ -74,7 +74,15 @@ class DragDrop {
             item.style.transform = `translateY(${holderBoxY - containerBoxY}px)`;
         }
     }
-    firstContact(event) {
+    /*
+     * The first contact or the first touch
+     * it will look for an element that contain an item class when you clicked to an element,
+     * if the element you clicked does not contain the class it will look for its parent,
+     * it will look until the element is the body.
+     * then get its data id,from the data id find the element in this.items that contain the same, 
+     * id data value then set its transition to transform 0s,
+     * then set the inital position value to the positon of where you click.
+    */ firstContact(event) {
         let eventTarget = event.target;
         let current_element = event.target;
         while(current_element != document.body){
@@ -82,11 +90,11 @@ class DragDrop {
             current_element = current_element.parentElement;
         }
         let target = current_element.getAttribute("data-ddid");
-        if (target == null || !current_element.classList.contains("item")) return;
-        let item = this.items[Array.from(this.items).indexOf(Array.from(this.items).find((value)=>{
+        if (target == null) return;
+        let item = Array.from(this.items).find((value)=>{
             let element = value;
             return element.getAttribute("data-ddid") == target;
-        }))];
+        });
         item.style.transition = "transform 0s";
         this.target = Number(target);
         let { pageX, pageY } = event;
@@ -95,7 +103,12 @@ class DragDrop {
             y: pageY
         };
     }
-    dragging(event) {
+    /*
+     * The dragging part when the user hold the target item
+     * if there is no target item dont run the function ,
+     *
+     *
+    */ dragging(event) {
         if (this.target == null) return;
         let currentPosition = {
             x: event.pageX,
