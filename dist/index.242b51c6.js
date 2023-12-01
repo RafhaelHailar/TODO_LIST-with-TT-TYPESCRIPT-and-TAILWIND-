@@ -2,14 +2,14 @@ class TaskHandler {
     constructor(container){
         this._TASKS = [];
         this.container = container;
-        //container all html used
+        //contains all html used
         this.HTML = {
             addTask: container.querySelector("#add-task-form"),
             taskList: container.querySelector("#task-list"),
             noTask: container.querySelector("#no-task")
         };
         this.HTML.taskListContainer = this.HTML.taskList.parentElement;
-        this.dragdrop = new DragDrop(this.HTML.taskList, this, "_TASKS");
+        this.dragdrop = new DragDrop(this.HTML.taskList, this._TASKS);
         this.dragdrop.init();
     }
     //as the name say it take a Task type value and push that to the _TASKS container and then update the display

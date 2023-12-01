@@ -5,11 +5,9 @@ class DragDrop {
     items: any;
     holders: any;
     isDragging: boolean;
-    orderHolder: any;
-    orderName: string;
     order: any[];
 
-    constructor(container: HTMLElement,orderHolder: any,orderName: string) {
+    constructor(container: HTMLElement,order: any[]) {
         this.container = container;
         this.target = null;
         this.initialPosition = {
@@ -18,29 +16,40 @@ class DragDrop {
         };
         this.items = this.holders;
         this.isDragging = false;
-        this.orderHolder = orderHolder;
-        this.order = orderHolder[orderName];
-        this.orderName = orderName;
+        this.order = order; 
     }
 
+    // make the holder for the items
+    /*
+      It will make a holder with the same size as theh item and  add the item margin,
+      to place them correctly as the previous position of the item,
+      then add them in the container element to replace the item.
+
+      we assign the this.holders to the holder that we created.
+    */
     makeHolders(): void {
         let items = this.items;
+        let getRect = DragDrop.utils.getBoundingClientRect;
         for (let i = 0;i < items.length;i++) {
             let holder = document.createElement("div");
             holder.className = "holder";
-            let {top,left,width,height} = DragDrop.utils.getBoundingClientRect(items[i]) as DOMRect;
-            let containerBox = DragDrop.utils.getBoundingClientRect(this.container) as DOMRect;
+
+            let {width,height} = getRect(items[i]) as DOMRect;
+            let containerBox = getRect(this.container) as DOMRect;
             
-            holder.style.backgroundColor = "rgba(0,0,0,.04)";
-            holder.style.margin = getComputedStyle(items[i]).margin;
-            holder.style.width = width + "px";
-            holder.style.height = height + "px";
-            holder.style.transform = `translate(${left - containerBox.x}px,${top - containerBox.y}px)`;
+            holder.style.cssText = `
+                background-color: rgba(0,0,0,0.04);
+                margin: ${getComputedStyle(items[i]).margin};
+                width: ${width}px;
+                height: ${height}px;
+            `;
+
             this.container.appendChild(holder);
         }
         this.holders = this.container.querySelectorAll(".holder");
     }
-
+    
+    // remove all the holders that we have created
     removeHolders(): void {
         let holders = this.container.querySelectorAll(".holder");
         for (let i = 0;i < holders.length;i++) {
@@ -48,19 +57,30 @@ class DragDrop {
             holder.remove();
         }
     }   
-
+    
+    // preparing our items
+    /*
+     First we remove all the holders that we created because we are going to create new ones,
+     we get all the children in our container element ( they will be our item) and them a class,
+     me make their display flow out of the dom by adding position absolute,
+     then asign them to this.items for the holder that we are going to create to get them,
+     then we make the holders, then position the items to the holder.
+        
+     it is not necessarily to remove the holders in the app that I createad,
+     since in the index.ts it already removed it for us,
+     but I think of these two files as independent so I remove it still.
+    */
     setItems(): void {
         this.removeHolders();
         
         let childrens = this.container.children;         
         for (let i = 0;i < childrens.length;i++) {
             let children = childrens[i] as HTMLElement;
-            children.classList.add("item");
+            children.classList.add("dd-item");
             children.style.position = "absolute";
-            children.style.transition = "transform 0s";
         }
         
-        this.items = this.container.querySelectorAll(".item") as NodeListOf<Element>;
+        this.items = this.container.querySelectorAll(".dd-item") as NodeListOf<Element>;
         this.makeHolders();
 
         let items = this.items;
@@ -68,16 +88,21 @@ class DragDrop {
         for (let i = 0;i < items.length;i++) {
             let item = items[i];
             item.setAttribute("data-ddid",this.order[i].id);
+           
             let holder = holders[i];
-            let holderBoxY = DragDrop.utils.getBoundingClientRect(holder,"y") as number;
-            let containerBoxY = DragDrop.utils.getBoundingClientRect(this.container,"y") as number;
+            
             item.style.margin = '0';
-            item.style.transform = `translateY(${holderBoxY - containerBoxY}px)`;
+            item.style.transition = "0s";
 
+            this.positionItem(item,holder);
+            
+            //for some reason the transition is applied before the translate end,
+            //so we can see transition, but what I want is to place the items first,
+            //before we can have the transition (the transition is for every time we moved the element,
+            //in dragging).
             setTimeout(() => {
                 item.style.transition = `transform 0.15s ease-in`;
-            });
-
+            },150);
         }
     }
 
@@ -110,7 +135,7 @@ class DragDrop {
         let current_element = event.target as HTMLElement;
 
         while (current_element != document.body) {
-            if (current_element.classList.contains("item")) break;
+            if (current_element.classList.contains("dd-item")) break;
             current_element = current_element.parentElement as HTMLElement;
         }   
 
@@ -150,35 +175,42 @@ class DragDrop {
         let holder = this.holders[this.order.indexOf(DragDrop.utils.getObjectById(this.order,"id",this.target))];
         let holderBoxY = DragDrop.utils.getBoundingClientRect(holder,"y") as number;
 
-        let item = this.items[Array.from(this.items).indexOf(Array.from(this.items).find(value => {
+        let item = Array.from(this.items).find(value => {
             let element = value as HTMLElement;
             return Number(element.getAttribute("data-ddid")) == this.target;
         }))];
        
         item.style.transform = `translate(${currentPosition.x - (this.initialPosition.x as number)}px,${(holderBoxY - (DragDrop.utils.getBoundingClientRect(this.container,"y") as number)) + currentPosition.y - (this.initialPosition.y as number)}px)`;
 
-        this.collission(holder);
+        this.collission(holder,item);
     }
 
-    collission(current: HTMLElement): void {
-        let currentBoxY = DragDrop.utils.getBoundingClientRect(current,"y") as number;
+    // collission will detect where we will put the next item
+    /*
+       Look for holders where the item we are dragging are on top of it,
+       by half of its size then update the order indexes if we found one
+       update the item (that we are dragging) order by that match index
+    */
+    collission(current: HTMLElement,item: HTMLElement): void {
+        let {getObjectById, getBoundingClientRect, insertAt} = DragDrop.utils;
+        let getRect = getBoundingClientRect;
+        let getId = getObjectById;
+
+        let currentBoxY = getRect(current,"y") as number;
         let holders = this.holders;
 
         for (let i = 0;i < holders.length;i++) {
             let holder = holders[i];
-            if (current == holder) continue;
-            let holderBox = DragDrop.utils.getBoundingClientRect(holder) as DOMRect;
-            let item = this.items[Array.from(this.items).indexOf(Array.from(this.items).find(value => {
-                let element = value as HTMLElement;
-                return Number(element.getAttribute("data-ddid")) == this.target;
-            }))];
-            let itemBox = DragDrop.utils.getBoundingClientRect(item) as DOMRect;
-            if (Math.abs((holderBox.y + holderBox.height / 2) - (itemBox.y + itemBox.height / 2)) <= itemBox.height / 2) {
-       
-                this.orderHolder[this.orderName] = DragDrop.utils.insertAt(this.order,DragDrop.utils.getObjectById(this.order,"id",this.target as number),i);
-                this.order = this.orderHolder[this.orderName]
 
-                this.initialPosition.y = ((this.initialPosition.y as number) - currentBoxY) + (DragDrop.utils.getBoundingClientRect(holders[this.order.indexOf(DragDrop.utils.getObjectById(this.order,"id",this.target as number))],"y") as number);
+            if (current == holder) continue;
+            let holderBox = getRect(holder) as DOMRect;
+
+            let itemBox = getRect(item) as DOMRect;
+
+            if (Math.abs((holderBox.y + holderBox.height / 2) - (itemBox.y + itemBox.height / 2)) <= itemBox.height / 2) {
+                const targetItem = DragDrop.utils.getObjectById(this.order,"id",this.target as number);
+                insertAt(this.order,targetitem,i);
+                this.initialPosition.y = ((this.initialPosition.y as number) - currentBoxY) + (getRect(holders[this.order.indexOf(getId(this.order,"id",this.target as number))],"y") as number);
                 this.updateItems();
             }
         }
@@ -204,12 +236,24 @@ class DragDrop {
         
         this.updateItems();
     }
+    
+    // set the position of the item to its holder
+    positionItem(item: HTMLElement, holder: HTMLElement): void {
+        let getRect = DragDrop.utils.getBoundingClientRect;
+        let holderBoxY = getRect(holder,"y") as number;
+        let containerBoxY = getRect(this.container,"y") as number;
+        let yDelta = holderBoxY - containerBoxY;
+
+        item.style.transform = `translateY(${yDelta}px)`;
+    } 
 
     init(): void {
-
-        this.container.style.display = "flex";
-        this.container.style.flexDirection = "column";
-        this.container.style.position = "relative";
+        
+        this.container.style.cssText = `
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        `;
 
         this.setItems();
         
@@ -237,13 +281,13 @@ class DragDrop {
     }
     
     static utils = {
-        insertAt: function(array: number[],target: number,to: number): number[] | undefined  {
+        // insert the element depend on the "to" index
+        // if the "to" is lesser than the index of target we move the target up otherwise down
+        insertAt: function(array: number[],target: number,to: number): void {
             let initial_index = array.indexOf(target);
-            if (initial_index < to) {
-                return array.slice(0,initial_index).concat(array.slice(initial_index + 1,to + 1)).concat([target]).concat(array.slice(to + 1,array.length));
-            } else if (initial_index > to) {
-                return array.slice(0,to).concat([target]).concat(array.slice(to,initial_index)).concat(array.slice(initial_index + 1,array.length));
-            }
+            let temp = array[initial_index];
+            array[initial_index] = to;
+            array[to] = temp;
         },
         getBoundingClientRect: function(target: HTMLElement,...properties: Array<string>): (number | DOMRect | object) {   
             let rect: Record<string,number> = target.getBoundingClientRect() as any;

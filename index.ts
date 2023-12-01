@@ -14,14 +14,14 @@ class TaskHandler {
         this._TASKS = [];
         this.container = container;
 
-        //container all html used
+        //contains all html used
         this.HTML = {
             addTask: container.querySelector("#add-task-form") as HTMLElement,
             taskList: container.querySelector("#task-list") as HTMLElement,
             noTask: container.querySelector("#no-task") as HTMLElement,
         };
         this.HTML.taskListContainer = this.HTML.taskList.parentElement as HTMLElement;
-        this.dragdrop = new DragDrop(this.HTML.taskList,this,"_TASKS");
+        this.dragdrop = new DragDrop(this.HTML.taskList,this._TASKS);
         this.dragdrop.init();
     }
 
